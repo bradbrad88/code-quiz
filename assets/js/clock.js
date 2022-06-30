@@ -84,3 +84,7 @@ function stopClock() {
   timeRemaining = undefined;
   clearInterval(interval);
 }
+
+function renderSeconds() {
+  clockSeconds.innerText = timeRemaining;
+}

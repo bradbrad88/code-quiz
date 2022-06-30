@@ -106,8 +106,9 @@ function awardAnswer() {
 // Penalise timer
 function penaliseAnswer() {
   timeRemaining -= PENALTY;
+  startTime = new Date(startTime - PENALTY * 1000);
   if (timeRemaining < 0) return;
-  renderTime();
+  renderSeconds();
 }
 
 // Access the question object stored as JSON in the parent Article on renderQuestion function
@@ -228,7 +229,6 @@ function saveScore(e) {
   displaySaveConfirmation();
   initialsInput.value = "";
   saveBtn.setAttribute("disabled", true);
-  onChangeInitials();
 }
 
 function isHighScore() {
@@ -268,7 +268,6 @@ function gameOver() {
     displaySaveForm();
     content.appendChild(scoreForm);
   }
-  // stopTimer();
   stopClock();
   renderFeedback();
 }
