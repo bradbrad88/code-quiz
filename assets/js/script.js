@@ -2,7 +2,6 @@ const content = document.getElementById("content");
 const startBtn = document.getElementById("start");
 const forfeitBtn = document.getElementById("forfeit");
 const highScoreBtn = document.getElementById("high-scores");
-const timer = document.getElementById("timer");
 const scoreCard = document.querySelector(".scorecard");
 
 // Elements created in HTML then stored in memory for ease of use later
@@ -27,8 +26,6 @@ const PENALTY = 10;
 let questions = [];
 let highScores = [];
 let feedback = [];
-let timeRemaining;
-let interval;
 let score;
 
 startBtn.addEventListener("click", startGame);
@@ -82,27 +79,6 @@ function setHighScores() {
   localStorage.setItem("highscores", JSON.stringify(highScores));
 }
 
-// Initialises the game timer.
-function startTimer() {
-  timeRemaining = GAME_TIME;
-  renderTime();
-  clearInterval(interval);
-  interval = setInterval(() => {
-    if (timeRemaining <= 0) {
-      gameOver();
-      return;
-    }
-    timeRemaining--;
-    renderTime();
-  }, 1000);
-}
-
-function stopTimer() {
-  clearInterval(interval);
-  timeRemaining = 0;
-  renderTime();
-}
-
 function onAnswer(e) {
   // Use event delegation to only target clicks on child list elements
   if (e.target.matches("li")) {
@@ -151,10 +127,6 @@ function storeFeedback(e) {
 
 function clearFeedback() {
   feedback = [];
-}
-
-function renderTime() {
-  timer.innerHTML = timeRemaining;
 }
 
 function renderFeedback() {
@@ -281,7 +253,7 @@ function startGame() {
   displayForfeitButton();
   clearFeedback();
   getQuestions();
-  startTimer();
+  startClock(gameOver);
   renderQuestion();
 }
 
@@ -296,7 +268,8 @@ function gameOver() {
     displaySaveForm();
     content.appendChild(scoreForm);
   }
-  stopTimer();
+  // stopTimer();
+  stopClock();
   renderFeedback();
 }
 

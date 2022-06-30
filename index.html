@@ -19,7 +19,11 @@
     <div class="page-wrapper">
       <header>
         <h1>Quizzles</h1>
-        <section id="timer">Timer</section>
+        <div class="clock">
+          <canvas id="canvas" width="1000px" height="1000px"></canvas>
+          <img id="sparks" src="./assets/images/sparks.gif" alt="" />
+          <h4></h4>
+        </div>
       </header>
       <div class="flex-wrapper">
         <section id="menu">
@@ -70,6 +74,7 @@
       </div>
     </form>
     <script src="./assets/js/questions.js"></script>
+    <script src="./assets/js/clock.js"></script>
     <script src="./assets/js/script.js"></script>
   </body>
 </html>

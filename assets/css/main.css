@@ -18,11 +18,13 @@ body {
 }
 
 header {
+  display: flex;
   font-family: "Gloria Hallelujah", Arial, Helvetica, sans-serif;
   padding: 1rem 2rem;
   background-color: var(--headers);
   color: white;
   border-bottom: rgba(255, 255, 255, 0.433) solid 1px;
+  justify-content: space-between;
 }
 
 h1 {
@@ -31,6 +33,7 @@ h1 {
   font-size: 3rem;
   background: linear-gradient(-40deg, rgb(255, 211, 36) 0%, rgb(46, 209, 25) 100%);
   background-clip: text;
+  align-self: center;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -264,6 +267,37 @@ footer {
   text-align: center;
   margin-top: auto;
   padding: 1rem;
+}
+
+canvas {
+  width: 100%;
+  height: 100%;
+}
+
+.clock {
+  width: 100px;
+  aspect-ratio: 1 / 1;
+  display: inline-block;
+  position: relative;
+  /* opacity: 0.3; */
+}
+
+#sparks {
+  width: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: none;
+}
+
+h4 {
+  color: rgb(40, 40, 40);
+  margin: 0;
+  font-size: 3rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-shadow: 0 0 5px white;
 }
 
 @media screen and (max-width: 600px) {
