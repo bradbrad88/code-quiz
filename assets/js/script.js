@@ -8,6 +8,7 @@ const scoreCard = document.querySelector(".scorecard");
 const scoreForm = document.getElementById("save-score");
 const initialsInput = scoreForm.querySelector("#initials");
 scoreForm.remove();
+
 const questionEl = document.querySelector(".question");
 questionEl.remove();
 
@@ -34,11 +35,6 @@ highScoreBtn.addEventListener("click", displayScores);
 initialsInput.addEventListener("input", onChangeInitials);
 questionEl.addEventListener("click", onAnswer);
 
-function replaceClassesWith(el, classString) {
-  el.removeAttribute("class");
-  el.classList.add(classString);
-}
-
 // Input validation for saving user initials
 function onChangeInitials(e) {
   if (e.target.value.length > 1) {
@@ -50,19 +46,6 @@ function onChangeInitials(e) {
 
 function clearElement(el) {
   el.innerHTML = "";
-}
-
-function getQuestions() {
-  // Create a copy of original question list that can be manipulated
-  const remainingQuestions = [...QUESTIONS];
-  // Reset global questions array. There will likely be leftover questions from a previous round.
-  questions = [];
-  // Put the questions into random order
-  while (remainingQuestions.length > 0) {
-    const idx = Math.floor(Math.random() * remainingQuestions.length);
-    const splicedQuestion = remainingQuestions.splice(idx, 1)[0];
-    questions.push(splicedQuestion);
-  }
 }
 
 // Get scores from local storage
@@ -130,8 +113,10 @@ function clearFeedback() {
   feedback = [];
 }
 
+// Renders out information at the end of the round where questions were answered incorrectly
 function renderFeedback() {
   feedback.forEach(fb => {
+    // feedbackEl used as a template node
     const details = feedbackEl.cloneNode(true);
     const userAnswer = details.querySelector(".user-answer");
     const correctAnswer = details.querySelector(".correct-answer");
@@ -143,6 +128,21 @@ function renderFeedback() {
   });
 }
 
+// Fires on each new round. Puts questions in random order and sets in global variable.
+function getQuestions() {
+  // Create a copy of original question list that can be manipulated
+  const remainingQuestions = [...QUESTIONS];
+  // Reset global questions array. There will likely be leftover questions from a previous round.
+  questions = [];
+  // Put the questions into random order
+  while (remainingQuestions.length > 0) {
+    const idx = Math.floor(Math.random() * remainingQuestions.length);
+    const splicedQuestion = remainingQuestions.splice(idx, 1)[0];
+    questions.push(splicedQuestion);
+  }
+}
+
+// Accesses the next question in global questions array and displays it to the user
 function renderQuestion() {
   if (questions.length < 1) return gameOver();
   const question = questions.pop();
@@ -184,6 +184,7 @@ function renderQuestion() {
   content.appendChild(questionEl);
 }
 
+// Renders out a list of high scores
 function renderScores() {
   const list = highScoresEl.querySelector("ol");
   clearElement(list);
@@ -195,6 +196,7 @@ function renderScores() {
   content.appendChild(highScoresEl);
 }
 
+// Displays rendered scores on screen
 function displayScores() {
   clearElement(content);
   renderScores();
@@ -203,7 +205,7 @@ function displayScores() {
 function displaySaveForm() {
   const form = scoreForm.querySelector("#display-save-form");
   const confirmation = scoreForm.querySelector("#display-save-confirmation");
-  form.style.display = "block";
+  form.style.display = "flex";
   confirmation.style.display = "none";
 }
 
@@ -214,6 +216,7 @@ function displaySaveConfirmation() {
   confirmation.style.display = "block";
 }
 
+// Set users initials and score to global highscores variable and save in local storage
 function saveScore(e) {
   e.preventDefault();
   const initials = initialsInput.value.toUpperCase();
@@ -236,17 +239,20 @@ function isHighScore() {
   if (score > highscore) return true;
 }
 
+// Remove start button and display forfeit button
 function displayForfeitButton() {
   startBtn.style.display = "none";
   startBtn.innerText = "Try again";
   forfeitBtn.style.display = "block";
 }
 
+// Remove forfeit button and display start button
 function displayStartButton() {
   forfeitBtn.style.display = "none";
   startBtn.style.display = "block";
 }
 
+// Prep state for new round, start clock and render first question
 function startGame() {
   score = 0;
   highScoreBtn.setAttribute("disabled", "true");
@@ -257,6 +263,8 @@ function startGame() {
   renderQuestion();
 }
 
+// Run at end of game. Responsible for displaying round end screen and stopping the clock.
+// Choosing to stop the clock from this function as game end can be triggered from a penalised answer
 function gameOver() {
   displayStartButton();
   clearElement(content);
@@ -273,6 +281,7 @@ function gameOver() {
 }
 
 function init() {
+  // Load high scores from memory and set in global variable
   getHighScores();
 }
 
