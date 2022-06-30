@@ -45,24 +45,29 @@
     </article>
     <article class="high-scores">
       <h2>High Scores</h2>
-      <ol></ol>
+      <ol class="score-list"></ol>
     </article>
-    <article class="feedback">
-      <details>
-        <summary>
-          <h3>Question: <span id="question-feedback"></span></h3>
-        </summary>
-        <p>Your answer: <span id="user-answer"></span></p>
-        <p>Corret answer: <span id="correct-answer"></span></p>
-      </details>
-    </article>
+
+    <details class="feedback-item">
+      <summary><span class="question-feedback"></span></summary>
+      <p>Your answer: <span class="user-answer"></span></p>
+      <p>Corret answer: <span class="correct-answer"></span></p>
+    </details>
+
     <section class="scorecard">
-      <h3>Final Score: <span id="score"></span></h3>
+      <h2>Final Score: <span id="score"></span></h2>
     </section>
     <form id="save-score">
-      <label for="initials">Initials</label>
-      <input id="initials" type="text" maxlength="3" required />
-      <button disabled>Save Score</button>
+      <div id="display-save-form">
+        <h3>Congratulations!</h3>
+        <p>This is a new high score. Please enter your initals and save your record!</p>
+        <label for="initials">Initials</label>
+        <input id="initials" type="text" maxlength="3" required />
+        <button disabled>Save Score</button>
+      </div>
+      <div id="display-save-confirmation">
+        <p>Score saved!</p>
+      </div>
     </form>
     <script src="./assets/js/questions.js"></script>
     <script src="./assets/js/script.js"></script>

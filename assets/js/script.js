@@ -15,14 +15,14 @@ questionEl.remove();
 const saveBtn = scoreForm.querySelector("button");
 scoreCard.remove();
 
-const feedbackEl = document.querySelector(".feedback");
+const feedbackEl = document.querySelector(".feedback-item");
 feedbackEl.remove();
 
 const highScoresEl = document.querySelector(".high-scores");
 highScoresEl.remove();
 
-const GAME_TIME = 15;
-const PENALTY = 15;
+const GAME_TIME = 60;
+const PENALTY = 10;
 
 let questions = [];
 let highScores = [];
@@ -33,7 +33,7 @@ let score;
 
 startBtn.addEventListener("click", startGame);
 forfeitBtn.addEventListener("click", gameOver);
-highScoreBtn.addEventListener("click", renderScores);
+highScoreBtn.addEventListener("click", displayScores);
 initialsInput.addEventListener("input", onChangeInitials);
 questionEl.addEventListener("click", onAnswer);
 
@@ -149,11 +149,26 @@ function storeFeedback(e) {
   feedback.push(feedbackItem);
 }
 
+function clearFeedback() {
+  feedback = [];
+}
+
 function renderTime() {
   timer.innerHTML = timeRemaining;
 }
 
-function renderFeedback() {}
+function renderFeedback() {
+  feedback.forEach(fb => {
+    const details = feedbackEl.cloneNode(true);
+    const userAnswer = details.querySelector(".user-answer");
+    const correctAnswer = details.querySelector(".correct-answer");
+    const question = details.querySelector(".question-feedback");
+    question.innerText = fb.question;
+    correctAnswer.innerText = fb.correctAnswer;
+    userAnswer.innerText = fb.userAnswer;
+    content.appendChild(details);
+  });
+}
 
 function renderQuestion() {
   if (questions.length < 1) return gameOver();
@@ -197,7 +212,6 @@ function renderQuestion() {
 }
 
 function renderScores() {
-  clearElement(content);
   const list = highScoresEl.querySelector("ol");
   clearElement(list);
   highScores.forEach(({ initials, score }) => {
@@ -208,7 +222,27 @@ function renderScores() {
   content.appendChild(highScoresEl);
 }
 
-function saveScore() {
+function displayScores() {
+  clearElement(content);
+  renderScores();
+}
+
+function displaySaveForm() {
+  const form = scoreForm.querySelector("#display-save-form");
+  const confirmation = scoreForm.querySelector("#display-save-confirmation");
+  form.style.display = "block";
+  confirmation.style.display = "none";
+}
+
+function displaySaveConfirmation() {
+  const form = scoreForm.querySelector("#display-save-form");
+  const confirmation = scoreForm.querySelector("#display-save-confirmation");
+  form.style.display = "none";
+  confirmation.style.display = "block";
+}
+
+function saveScore(e) {
+  e.preventDefault();
   const initials = initialsInput.value.toUpperCase();
 
   if (!score) return;
@@ -219,7 +253,10 @@ function saveScore() {
   };
   highScores.unshift(newScore);
   setHighScores(highScores);
-  renderScores();
+  displaySaveConfirmation();
+  initialsInput.value = "";
+  saveBtn.setAttribute("disabled", true);
+  onChangeInitials();
 }
 
 function isHighScore() {
@@ -242,6 +279,7 @@ function startGame() {
   score = 0;
   highScoreBtn.setAttribute("disabled", "true");
   displayForfeitButton();
+  clearFeedback();
   getQuestions();
   startTimer();
   renderQuestion();
@@ -254,8 +292,12 @@ function gameOver() {
   scoreForm.querySelector("button").addEventListener("click", saveScore);
   scoreCard.querySelector("#score").innerText = score;
   content.appendChild(scoreCard);
-  if (isHighScore()) content.appendChild(scoreForm);
+  if (isHighScore()) {
+    displaySaveForm();
+    content.appendChild(scoreForm);
+  }
   stopTimer();
+  renderFeedback();
 }
 
 function init() {
