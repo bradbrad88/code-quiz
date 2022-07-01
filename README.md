@@ -7,3 +7,5 @@ The questions are multiple choice, and an incorrect choice will penalise their t
 A record of scores is maintained in local storage.
 
 [Github Repo](https://github.com/bradbrad88/code-quiz)
+
+![Animated Screenshot](./assets/images/example.gif)
