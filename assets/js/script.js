@@ -21,8 +21,7 @@ feedbackEl.remove();
 const highScoresEl = document.querySelector(".high-scores");
 highScoresEl.remove();
 
-const GAME_TIME = 60;
-const PENALTY = 10;
+const PENALTY = 5;
 
 let questions = [];
 let highScores = [];

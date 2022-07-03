@@ -1,10 +1,10 @@
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 const radius = 1000;
-const TIME = 30;
 const sparks = document.getElementById("sparks");
 const clock = document.querySelector(".clock");
 const clockSeconds = clock.querySelector("h4");
+const GAME_TIME = 70;
 let timeRemaining;
 let interval;
 let startTime;
@@ -19,11 +19,11 @@ function draw() {
   let height = canvas.clientHeight;
   let width = canvas.clientWidth;
   // Calculate how far through the timer we are as a percentage
-  const percentageRemaining = (TIME - (Date.now() - startTime) / 1000) / TIME;
+  const percentageRemaining = (GAME_TIME - (Date.now() - startTime) / 1000) / GAME_TIME;
   // Calculate angle required based on percentage of time remaining
-  const angle = ((startTime - Date.now()) / 1000 / TIME) * 360;
+  const angle = ((startTime - Date.now()) / 1000 / GAME_TIME) * 360;
   // Set outer line width early - this is used in calculating to fit in frame
-  ctx.lineWidth = 10;
+  ctx.lineWidth = 20;
   // Get relative coordinates
   const x = Math.sin(-2 * Math.PI * percentageRemaining);
   const y = Math.cos(2 * Math.PI * percentageRemaining) * -1;
@@ -51,7 +51,7 @@ function draw() {
   // Change the hue of the background colour based on time remaining. Range from green to red
   ctx.fillStyle = `hsl(${percentageRemaining * 110}, 67%, 44%)`;
   ctx.fill();
-  ctx.strokeStyle = "rgb(80, 80, 80)";
+  ctx.strokeStyle = "rgb(191, 255, 0)";
   ctx.stroke();
   // Use requestAnimationFrame as it is more performant than an interval loop
   // Runs on the next available paint and manages performance
@@ -59,7 +59,7 @@ function draw() {
 }
 
 function startClock(callback) {
-  timeRemaining = TIME;
+  timeRemaining = GAME_TIME;
   startTime = Date.now();
   sparks.style.display = "block";
   clockSeconds.style.display = "block";
