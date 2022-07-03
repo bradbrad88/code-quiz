@@ -10,4 +10,6 @@ Users will be given the chance to save their initials against their score if it 
 
 [Github Repo](https://github.com/bradbrad88/code-quiz)
 
+[Deployed Site](https://bradbrad88.github.io/code-quiz/)
+
 ![Animated Screenshot](./assets/images/example.gif)
