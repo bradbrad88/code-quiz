@@ -270,14 +270,6 @@ details .correct-answer {
   color: green;
 }
 
-footer {
-  color: white;
-  background-color: var(--headers);
-  text-align: center;
-  margin-top: auto;
-  padding: 1rem;
-}
-
 canvas {
   width: 100%;
   height: 100%;
@@ -307,6 +299,15 @@ h4 {
   left: 50%;
   transform: translate(-50%, -50%);
   text-shadow: 0 0 5px white;
+}
+
+footer {
+  color: white;
+  background-color: var(--headers);
+  text-align: center;
+  margin-top: auto;
+  padding: 1rem;
+  border-top: var(--border) solid 1px;
 }
 
 @media screen and (max-width: 600px) {
